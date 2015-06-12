@@ -121,8 +121,12 @@ func (s *FileSet) Update(device protocol.DeviceID, fs []protocol.FileInfo) {
 				updates = append(updates, newFile)
 			}
 		}
-		s.blockmap.Discard(discards)
-		s.blockmap.Update(updates)
+		for i := range discards {
+			s.blockmap.Discard(discards[i : i+1])
+		}
+		for i := range updates {
+			s.blockmap.Update(updates[i : i+1])
+		}
 	}
 	if lv := ldbUpdate(s.db, []byte(s.folder), device[:], fs); lv > s.localVersion[device] {
 		s.localVersion[device] = lv
