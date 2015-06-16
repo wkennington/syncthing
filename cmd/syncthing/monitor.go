@@ -64,6 +64,7 @@ func monitorMain() {
 	}
 
 	args := os.Args
+	l.Debugf("%#v", args)
 	var restarts [countRestarts]time.Time
 
 	sign := make(chan os.Signal, 1)
