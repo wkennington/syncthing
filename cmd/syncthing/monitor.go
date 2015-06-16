@@ -64,13 +64,15 @@ func monitorMain() {
 	}
 
 	args := os.Args
-	l.Debugf("%#v", args)
+	l.Debugf("os.Args: %#v", args)
+
 	var restarts [countRestarts]time.Time
 
 	sign := make(chan os.Signal, 1)
 	sigTerm := syscall.Signal(0xf)
 	signal.Notify(sign, os.Interrupt, sigTerm, os.Kill)
 
+	l.Debugln("Entering loop")
 	for {
 		if t := time.Since(restarts[0]); t < loopThreshold {
 			l.Warnf("%d restarts in %v; not retrying further", countRestarts, t)
@@ -93,6 +95,7 @@ func monitorMain() {
 		}
 
 		l.Infoln("Starting syncthing")
+		l.Debugf("cmd: %#v", cmd)
 		err = cmd.Start()
 		if err != nil {
 			l.Fatalln(err)
