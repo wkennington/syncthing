@@ -118,8 +118,8 @@ func (s *upnpSvc) tryIGD(igd upnp.IGD, suggestedPort int) (int, error) {
 		}
 	}
 
-	for i := 0; i < 10; i++ {
-		// Then try up to ten random ports.
+	for i := 0; i < 100; i++ {
+		// Then try up to one hundred random ports.
 		extPort := 1024 + predictableRandom.Intn(65535-1024)
 		name := fmt.Sprintf("syncthing-%d", extPort)
 		err = igd.AddPortMapping(upnp.TCP, extPort, s.localPort, name, leaseTime)
